@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/quizs")
+@RequestMapping("/quizzes")
 public class QuizController {
 
     private QuizService quizService;
@@ -21,12 +21,12 @@ public class QuizController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Quiz>> getQuizs() {
+    public ResponseEntity<List<Quiz>> getQuizzes() {
         List<Quiz> quiz = null;
         try {
             quiz = this.quizService.getAllQuiz();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(500).build(); // Erreur serveur interne
         }
         return ResponseEntity.ok(quiz);
     }
@@ -37,7 +37,7 @@ public class QuizController {
         try {
             quiz = this.quizService.getQuizById(id);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ResponseEntity.status(500).build(); // Erreur serveur interne
         }
         return ResponseEntity.ok(quiz);
     }

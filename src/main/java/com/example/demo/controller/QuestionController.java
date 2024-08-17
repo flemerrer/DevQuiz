@@ -13,7 +13,7 @@ import java.util.List;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
-@RequestMapping("/quiz")
+@RequestMapping("/questions")
 public class QuestionController {
 
     private QuestionService questionService;
@@ -22,23 +22,23 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @GetMapping("/questions")
+    @GetMapping
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = null;
         try {
             questions = questionService.findAll();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ResponseEntity.status(500).build(); // Erreur serveur interne
         }
         return ResponseEntity.ok(questions);
     }
-    @GetMapping("/questions")
+    @GetMapping("/question")
       public ResponseEntity<Question> getQuestionById(@RequestParam(name = "id")int id) {
         Question question = null;
         try {
             question = questionService.findById(id);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ResponseEntity.status(500).build(); // Erreur serveur interne
         }
         return ResponseEntity.ok(question);
     }
